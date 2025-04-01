@@ -6,8 +6,11 @@ from colorama import Fore
 from bs4 import BeautifulSoup
 
 class Mangalear:
-    def get_info(self, url):
-        res = requests.get(url)
+    def __init__(self, url):
+        self.url = url
+    
+    def get_info(self):
+        res = requests.get(self.url)
         soup = BeautifulSoup(res.text, "html.parser")
 
         title = soup.find("h1", class_="entry-title").text
@@ -20,10 +23,9 @@ class Mangalear:
 
         return title, links
 
-    def download(self, url):
+    def download(self, imgs):
         if not os.path.exists("mangas"):
             os.makedirs("mangas")
-        imgs = self.get_info(url)[1]
         filename = 0
         for link in tqdm(imgs, desc="Downloading", unit="file"):
             try:
@@ -37,7 +39,28 @@ class Mangalear:
                 tqdm.write(Fore.GREEN+"[Success] "+Fore.RESET+f"{str(filename)}.jpg")
             except Exception as e:
                 tqdm.write(Fore.GREEN+"[Failed] "+Fore.RESET+f"{link}")
+    
+    def run(self):
+        title = self.get_info()[0]
+        imgs = self.get_info()[1]
+        print(f"\nTitle: {title}\nManaga: {len(imgs)}page")
+        self.download(imgs)
+    
+    def convert(self): 
+        imgs = []
+        dir = "./mangas"
+        for file in os.listdir(dir):
+            if not file.endswith(".jpg"):
+                continue
+            path = os.path.join(dir, file)
+            if os.path.isdir(path):
+                continue
+            imgs.append(path)
+        print(imgs)
+        with open(f"{dir}/converted.pdf","wb") as f:
+            f.write(img2pdf.convert(imgs))
 
 if __name__ == "__main__":
-    mangalear = Mangalear()
-    mangalear.download("")
+    mangalear = Mangalear("url here")
+    mangalear.download()
+    mangalear.convert()
