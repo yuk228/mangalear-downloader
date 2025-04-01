@@ -1,0 +1,5 @@
+tqdm
+img2pdf
+requests
+colorama
+beautifulsoup4
