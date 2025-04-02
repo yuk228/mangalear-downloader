@@ -1,4 +1,4 @@
-# Mangalear Downloader
+# Mangalear.blog Downloader
 
 Manga downloader created for educational purposes
 
@@ -32,4 +32,3 @@ Manga downloader created for educational purposes
    
   ## ⚠️ Warning
   This tool is created for educational purposes. Downloading manga may violate copyright laws, so please follow the laws of the country or region in which you reside. Use is entirely at your own risk.
-  
